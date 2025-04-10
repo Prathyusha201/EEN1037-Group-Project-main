@@ -1,0 +1,93 @@
+{%load static %}
+<div class="side-navbar">
+    <!-- <a href="{% url 'index' %}" class="home-icon">
+        <img src="{% static 'media/navbar/Home.png' %}" alt="Home">
+    </a> -->
+    <ul class="nav-links">
+        <li class="nav-item">
+            <a href="{% url 'index' %}" class="nav-icon">
+                <img class="nav-image" src="{% static 'media/navbar/Home.png' %}" alt="Home">
+                <span style="font-size: 14px;">Home</span>
+            </a>
+        </li>
+        <li class="nav-item" data-submenu="dashboard">
+            <a href="{% url 'dashboard' %}" class="nav-icon">
+                <img class="nav-image" src="{% static 'media/navbar/gauge.png' %}" alt="Dashboard">
+                <span style="font-size: 14px;">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item" data-submenu="equipment">
+            <a href="{% url 'machines' %}" class="nav-icon">
+                <img class="nav-image" src="{% static 'media/navbar/Cpu.png' %}" alt="Machines">
+                <span style="font-size: 14px;">Machines</span>
+            </a>
+        </li>
+        <li class="nav-item" data-submenu="collections">
+            <a href="{% url 'collections' %}" class="nav-icon">
+                <img class="nav-image" src="{% static 'media/navbar/Truck.png' %}" alt="Collections">
+                <span style="font-size: 14px;">Collections</span>
+            </a>
+        </li>
+        <li class="nav-item" data-submenu="cases">
+            <a href="{% url 'cases' %}" class="nav-icon">
+                <img class="nav-image" src="{% static 'media/navbar/Briefcase.png' %}" alt="Cases">
+                <span style="font-size: 14px;">Cases</span>
+            </a>
+        </li>
+    </ul>
+    <div id="user-auth-links">
+        <button class="auth-button">
+            <img src="{% static 'media/navbar/dark_mode.png' %}" alt="Dark-Mode">
+            <span style="font-size: 11px;">Dark Mode</span>
+        </button>
+        {% if user.is_authenticated %}
+        <button onclick="showLogoutModal()" class="auth-button">
+            <img src="{% static 'media/navbar/User.png' %}" alt="Profile">
+            <span style="font-size: 11px;">Log out</span>
+        </button>
+        {% else %}
+        <a href="{% url 'sign-in' %}" class="auth-button">
+            <img src="{% static 'media/navbar/User.png' %}" alt="Profile">
+            <span style="font-size: 11px;">Sign In</span>
+        {% endif %}
+        </a>
+        <a href="{% url 'static-pages' %}" class="auth-button">
+            <img src="{% static 'media/navbar/Help.png' %}" alt="Static-Pages">
+            <span style="font-size: 11px;">Help</span>
+        </a>
+    </div>
+</div>
+
+<div class="nav-submenu" id="nav-submenu"></div>
+
+<!-- Modal that becomes visible to validate user log out-->
+<div id="logout-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLogoutModal()">&times;</span>
+        <h2>Are you sure you want to log out?</h2>
+        <div class="modal-actions">
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Log Out</button>
+            </form>
+            <button class="cancel-btn" onclick="closeLogoutModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal script logic -->
+<script>
+    var modal = document.getElementById("logout-modal");
+    function showLogoutModal() {
+        modal.style.display = "block";
+    }
+    function closeLogoutModal() {
+        modal.style.display = "none";
+    }
+    
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

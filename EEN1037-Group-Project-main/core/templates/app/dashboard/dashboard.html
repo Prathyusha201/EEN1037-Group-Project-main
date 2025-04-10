@@ -1,0 +1,51 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    {% if section_template %}
+        {% include section_template %}
+    {% else %}
+        <p>Dashboard default content</p>
+    {% endif %}
+{% endblock %}
+
+{% block submenu_script %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const submenuContainer = document.getElementById("horizontal-submenu");
+        const submenuItems = [
+            { label: "Status Overview", url: "/dashboard/section/overview/" },
+            { label: "Assigned Machines", url: "/dashboard/section/machines/" },
+            { label: "Recent Activities", url: "/dashboard/section/recent/" },
+            { label: "Alerts", url: "/dashboard/section/alerts/" },
+            { label: "KPM's", url: "/dashboard/section/kpms/" }
+        ];
+
+        submenuContainer.innerHTML = submenuItems.map(item => `
+            <button
+                class="submenu-link"
+                hx-get="${item.url}"
+                hx-target=".content"
+                hx-swap="innerHTML"
+                hx-push-url="true"
+                onclick="setActiveSubmenu(this)"
+            >${item.label}</button>
+        `).join("");
+
+        htmx.process(submenuContainer);
+        // Auto click first option - makes default content obsolete
+        if (submenuItems.length) {
+            const first = submenuContainer.querySelector(".submenu-link");
+            if(first) {
+              first.click();
+            }
+        }
+    });
+
+    function setActiveSubmenu(clickedButton) {
+        document.querySelectorAll('.submenu-link').forEach(btn => btn.classList.remove('active'));
+        clickedButton.classList.add('active');
+    }
+</script>
+{% endblock %}

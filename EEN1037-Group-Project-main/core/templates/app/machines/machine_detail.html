@@ -1,0 +1,53 @@
+{% load static %}
+<script>
+    function openTab(event, tabName) {
+        var i, tabContent, tabButtons;
+    
+        tabContent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabContent.length; i++) {
+            tabContent[i].style.display = "none";
+            tabContent[i].classList.remove("active");
+        }
+    
+        tabButtons = document.getElementsByClassName("tab-button");
+        for (i = 0; i < tabButtons.length; i++) {
+            tabButtons[i].classList.remove("active");
+        }
+    
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        event.currentTarget.classList.add("active");
+    }
+</script>
+<div class="machine-detail-card"> 
+    <img src="{% static 'media/machine-illustration.jpg' %}" alt="Machine Illustration"> 
+    <div class="machine-details">
+        <span class="machine-model">Model</span>
+    </div>
+    <!-- Tabs -->
+    <div class="tab-container">
+        <button class="tab-button active" onclick="openTab(event, 'info')">Info</button>
+        <button class="tab-button" onclick="openTab(event, 'history')">History</button>
+        <button class="tab-button" onclick="openTab(event, 'warnings')">Warnings</button>
+        <button class="tab-button" onclick="openTab(event, 'faults')">Faults</button>
+        <button class="tab-button" onclick="openTab(event, 'assigned')">Assigned</button>
+    </div>
+    <!-- Tab Content -->
+    <div class="tab-content-container">
+        <div id="info" class="tab-content active">
+            <p>Machine information goes here...</p>
+        </div>
+        <div id="history" class="tab-content">
+            <p>Machine history details...</p>
+        </div>
+        <div id="warnings" class="tab-content">
+            <p>Warning messages...</p>
+        </div>
+        <div id="faults" class="tab-content">
+            <p>Fault logs...</p>
+        </div>
+        <div id="assigned" class="tab-content">
+            <p>Assigned user(s)...</p>  
+        </div>
+    </div>
+</div>

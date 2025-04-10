@@ -1,0 +1,11 @@
+.git/
+.vscode/
+.pytest_cache/
+__pycache__/
+.venv/
+.env*
+storage/
+staticfiles/
+
+erd.dot
+erd.png

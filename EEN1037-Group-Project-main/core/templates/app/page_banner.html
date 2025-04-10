@@ -1,0 +1,15 @@
+<div id="page-banner">
+    {% if page_name == "home" %}
+        <h1>Welcome back, {{ user.first_name }} 👋</h1>
+    {% elif page_name == "dashboard" %}
+        <h1>Dashboard</h1>
+    {% elif page_name == "equipment" %}
+        <h1>Machines</h1>
+    {% elif page_name == "collections" %}
+        <h1>Collections</h1>
+    {% elif page_name == "cases" %}
+        <h1>Cases</h1>
+    {% else %}
+        <h1>{{ page_name|capfirst }}</h1>
+    {% endif %}
+</div>

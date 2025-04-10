@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Machines{% endblock %}
+
+{% block content %}
+  {% if section_template %}
+    {% include section_template %}
+  {% else %}
+    <p>Machines default content</p>
+  {% endif %}
+{% endblock %}
+
+{% block submenu_script %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const submenuContainer = document.getElementById("horizontal-submenu");
+        const submenuItems = [
+            { label: "Grid View", url: "/machines/section/grid/" },
+            { label: "Table View", url: "/machines/section/table/" },
+        ];
+
+        submenuContainer.innerHTML = submenuItems.map(item => `
+            <button
+                class="submenu-link"
+                hx-get="${item.url}"
+                hx-target=".content"
+                hx-swap="innerHTML"
+                hx-push-url="true"
+                onclick="setActiveSubmenu(this)"
+            >${item.label}</button>
+        `).join("");
+
+        htmx.process(submenuContainer);
+        // Auto click first option - makes default content obsolete
+        if (submenuItems.length) {
+            const first = submenuContainer.querySelector(".submenu-link");
+            if(first) {
+              first.click();
+            }
+        }
+    });
+
+    function setActiveSubmenu(clickedButton) {
+        document.querySelectorAll('.submenu-link').forEach(btn => btn.classList.remove('active'));
+        clickedButton.classList.add('active');
+    }
+</script>
+{% endblock %}
